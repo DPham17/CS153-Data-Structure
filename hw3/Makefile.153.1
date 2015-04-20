@@ -1,0 +1,18 @@
+#Makefile for submitting CS153 assignment
+# by Ricardo Morales
+# Aug / 27 / 2012
+
+CXX = g++
+CXXFLAGS = -Wall -W -s -pedantic-errors
+
+MAINFILE = clams.cpp
+
+.PHONY: default run 
+
+default: run
+
+run:
+	-@echo "--- CS-153 HOMEWORK 1"
+	-@echo "--- Deliverable file = ${MAINFILE}"
+	${CXX} ${CXXFLAGS} ${MAINFILE} -o clams
+	-@echo "--- SUCCESS!"

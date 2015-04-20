@@ -1,0 +1,31 @@
+5
+Paris 4
+airport 2 park disco
+park 1 bar
+bar 1 airport
+disco 1 bar
+Miami 3
+airport 1 swamp
+swamp 0
+beach 1 beach
+Rolla 2
+airport 1 MS&T
+MS&T 1 airport
+Zu's_Room 10
+airport 3 ty bathroom brett
+ty 2 bathroom larry
+david 4 bathroom larry ty brett
+larry 1 david
+bathroom 1 bathroom
+brett 1 ryan
+ryan 1 bathroom
+ethan 6 airport brett ryan bathroom ty larry
+mack 1 mack
+paul 1 airport
+Trash 6
+airport 1 boot
+cans 1 mold
+boot 1 lid
+cat 1 cat
+lid 1 cans
+mold 1 cat

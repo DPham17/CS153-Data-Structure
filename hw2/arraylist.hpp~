@@ -1,0 +1,281 @@
+//Dzu Pham
+//Section A
+//arraylist.hpp 
+//to recreate the ‘arraylist.hpp’ file 
+
+#include <iostream>
+#include "arraylist.h"
+using namespace std;
+
+  template <class T>
+  ArrayList<T>::~ArrayList()
+  {
+    clear();
+  }
+
+  template <class T>
+  ArrayList<T>& ArrayList<T>::operator=(const ArrayList<T>& rhs)
+  {
+  	if(this != &rhs)
+  	{
+      m_size = rhs.m_size;
+	  m_max = rhs.m_max;
+	  delete[] m_data;
+	  m_data = new T[m_max];
+	  
+	  for (int k=0; k<m_size; k++)
+	  {
+	  	m_data[k] = rhs.m_data[k];
+	  }	
+  	  return *this;
+    }
+  }
+
+  // Purpose: Copy Constructor
+  // Parameters: cpy = ArrayList to be copied
+  template <typename T> 
+  ArrayList<T>::ArrayList(const ArrayList<T>& cpy)
+  {
+    m_size=cpy.m_size;
+	m_max=cpy.m_max;
+	m_data= new T[m_max];
+	for (int k=0; k<m_size; k++)
+	{
+	  m_data[k]=cpy.m_data[k];
+	}
+  }
+
+  /* 
+   * ----- Basic Accessor Operations ----- */
+  
+  // Purpose: Accessor function for the number of elements in the list
+  // Returns: number of elements in the list 
+  template <typename T> 
+  int ArrayList<T>:: size() const
+  {
+	  return m_size;
+  }
+
+  // Returns: a copy of the first element in the list
+  template <typename T> 
+  const T& ArrayList<T>::first() const
+  {
+	if (m_size > 0)
+      return m_data[0];
+	else
+	{
+	  cout << "!-- ERROR : PANIC in ARRAYLIST.first()!!  (List is empty)" << endl;
+      return m_errobj;
+    }
+  }
+
+  template <typename T> 
+  T& ArrayList<T>::operator[](int i)
+  {
+    if(i>=0 && i < m_size) 
+	  return m_data[i];
+	else
+	{
+	  cout << "!-- ERROR : PANIC in ARRAYLIST!!.[]  (index out of bounds)" << endl;
+	  return m_errobj;
+	}
+  }
+
+  template <typename T> 
+  const T& ArrayList<T>::operator[](int i) const
+  {
+	 if(i>=0 && i<m_size)
+	   return m_data[i];
+	 else
+	 {
+	   cout <<"!-- ERROR : PANIC in ARRAYLIST!!.[]  (index out of bounds)" << endl;
+       return m_errobj;
+	 }
+  }
+
+  // Purpose: finds an element in the ArrayList
+  template <typename T> 
+  int ArrayList<T>::find(const T& x)
+  {
+  	int pos = -1;
+	for (int k=0; k<m_size; k++)
+  	{
+	  if (m_data[k] == x)
+	    pos = k;
+	}
+	return pos;
+  }
+
+
+  /* 
+   * ----- Basic Mutator Operations ----- */
+
+  // Purpose: Clears the ArrayList
+  template <typename T> 
+  void ArrayList<T>::clear()
+  {
+  	m_size = 0;
+    m_max = 0;
+    delete[] m_data;
+    m_data = NULL;
+  	return;
+  }
+  
+  // Purpose: puts the value x at the end of an ArrayList  
+  template <typename T>                          
+  void ArrayList<T>::insert_back(const T& x)
+  {
+	if(m_size >= 0)
+  	{
+	  if (m_data == NULL)
+	  {
+	    m_data = new T[42];
+	    m_max = 42;
+	  }
+	  else if(m_size == m_max)
+	  {
+	  	T* temp = new T[m_max*2];
+	  	for(int j=0; j < m_size; j++)
+          temp[j] = m_data[j];
+        delete[] m_data;
+        m_data = temp;
+        m_max*=2;
+
+	  }
+	  m_data[m_size] = x;
+	  m_size++;
+    }
+	else
+	{
+	  cout << "!-- ERROR : PANIC in ARRAYLIST!!.insert()  (index out of bounds)" << endl;
+	}
+    
+  }
+  
+  // Purpose: puts the value x at the position i in the  ArrayList
+  template <typename T>                               
+  void ArrayList<T>::insert(const T& x, int i)
+  {
+  	if(i >= 0 && i <= m_size)
+  	{
+	  if (m_data == NULL)
+	  {
+	    m_data = new T[42];
+	    m_max = 42;
+	  }
+	  else if(m_size == m_max)
+	  {
+	  	T* temp = new T[m_max*2];
+	  	m_max *= 2;
+	  	for(int k = 0; k < m_size; k++)
+        {
+          temp[k] = m_data[k];
+        }
+        delete[] m_data;
+        m_data = temp;
+      }
+	  for (int k=m_size; k>i; k--)
+	  {
+	    m_data[k]=m_data[k-1];
+	  }
+	  m_data[i]=x;
+	  m_size++;
+	}
+	else
+	  cout << "!-- ERROR : PANIC in ARRAYLIST!!.insert()  (index out of bounds)" << endl;
+	return;
+  }
+    
+  template <typename T> 
+  void ArrayList<T>::remove(int i)
+  {
+  	if(i < m_size && i >= 0)
+  	{
+  	  for (int j=i; j<m_size; j++)
+  	  {
+  	    m_data[j]=m_data[j+1];
+  	  }
+  	  m_size--;
+  	  
+  	  if(m_size < (m_max/4))
+  	  {
+  	  	T* temp = new T[m_max/2];
+        for(int j=0; j < m_size; j++)
+          temp[j] = m_data[j];
+        delete[] m_data;
+        m_data = temp;
+        m_max/=2;
+  	  }
+    } 
+    else
+      cout << "!-- ERROR : PANIC in ARRAYLIST!!.remove()  (index out of bounds)" << endl;
+    return;
+  }
+
+
+  /* 
+   * ----- Complex Mutator Operations ----- */
+
+  // Purpose: swaps two elements of the array
+  template <typename T> 
+  void ArrayList<T>::swap(int i, int k)
+  {
+    if ((i < m_size && k < m_size) && (i >= 0 && k >= 0))
+    {
+	  T x(m_data[i]);
+	  m_data[i] = m_data[k];
+	  m_data[k] = x;	
+    }
+    else
+      cout << "!-- ERROR : PANIC in ARRAYLIST!!.swap()  (index out of bounds)" << endl;
+    return;
+  }
+
+  // Purpose: appends two lists
+  // Parameters: alist, a list to append to the end of 'this' list
+  // Postconditions: current size is incremented by size of alist
+  //     the elements of alist are appended to the elements of 'this' 
+  template <typename T> 
+  void ArrayList<T>::append(const ArrayList<T>& alist)
+  {
+    if(alist.m_size>0)//makes sure alist is populated
+	{
+      if(m_size+alist.m_size < m_max)
+      {//expands calling object
+        T* temp = new T[m_max*2];
+        for(int j=0; j < m_size; j++)
+          temp[j] = m_data[j];
+        delete[] m_data;
+        m_data = temp;
+        m_max*=2;
+      }
+      for(int k=0; k<alist.m_size; k++)
+      {
+        m_data[m_size] = alist.m_data[k];
+        m_size ++;
+      }
+    }
+    else
+    {
+      cout <<"!-- ERROR : PANIC in ARRAYLIST!!.append()" << endl;
+    }
+    return;
+
+  }
+
+  // Purpose: removes duplicates from an Arraylist
+  // Postconditions: all duplicate elements are removed from the list.
+  template <typename T> 
+  void ArrayList<T>::purge()
+  {
+    for (int k=0; k<(m_size-1); k++)
+    {
+      for (int i=(k+1); i<m_size; i++)
+      {
+	    if(m_data[k] == m_data[i])
+	      remove(i);
+	  } 
+	}
+  }
+
+

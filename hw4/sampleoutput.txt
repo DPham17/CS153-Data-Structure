@@ -1,0 +1,47 @@
+
+
+#0
+Frigate Nostromo destroyed after laser power 15
+
+
+#1
+Destroyer AluminiumFalcon survived!
+Status : AluminiumFalcon : hull = 11, armor = 20
+
+
+#2
+Battlecruiser Hyperion survived!
+Status : Hyperion : hull = 67, shield = 23
+
+
+#3
+Dreadnought Nimbus survived!
+Status : Nimbus : hull = 111, shield = 16, armor = 40
+
+
+#4
+Dropship Titan destroyed after plasma power 25
+
+
+#5
+Frigate PurplePearl destroyed after missile power 20
+
+
+#6
+Destroyer Serenity survived!
+Status : Serenity : hull = 23, armor = 40
+
+
+#7
+Battlecruiser Deadalus destroyed after missile power 20
+
+
+#8
+Dreadnought Executor survived!
+Status : Executor : hull = 168, shield = 0, armor = 0
+
+
+#9
+Dropship Sulacco survived!
+Status : Sulacco : hull = 11, armor = 56, personnel = 212
+

@@ -1,0 +1,315 @@
+//Dzu Pham
+//Section A
+//mybstree.h  
+
+#include <iostream>
+#include <string>
+#include "abstractbstree.h"
+#ifndef MYBSTREE_H
+#define MYBSTREE_H
+
+using namespace std;
+
+
+template<class T>
+class MyBSTree : public AbstractBSTree <T>
+{
+	struct TreeNode
+	{
+	  T m_data;
+	  TreeNode* m_right;
+	  TreeNode* m_left;  
+
+	  TreeNode(const T& x)
+	  {
+	    m_data = x;
+	    m_left = NULL;
+	    m_right = NULL;
+	  }
+	};
+
+    TreeNode* m_root;
+
+// ----------------------------------------------------
+// ----------------------------------------------------
+// ----------------------------------------------------
+
+  public:
+	  
+    MyBSTree() //CHECK THE DEAFULT CONSTRUCTOR
+    {
+      m_root = NULL;
+    }
+		
+    ~MyBSTree() //Destructor
+    {
+      clear();
+    }
+		
+    MyBSTree (const MyBSTree& x)
+    {
+      if(&x != this)
+      {
+
+        clear();
+        m_root = this->clone(x.m_root);
+      }
+    }
+		
+    const MyBSTree& operator = (const MyBSTree& x)
+    {
+      if(&x == this)
+        return *this;
+
+      clear();
+      m_root = this->clone(x.m_root);
+
+      return *this;
+    }	
+/*** ---- Accessor Operations ---- */
+  
+    int size() const
+    {
+	if(m_root == NULL)
+	  return 0;
+	return (1+ m_root -> m_left -> size() + m_root -> m_right -> size());
+    }  
+
+
+    bool isEmpty() const
+    {
+      if(m_root == NULL)
+  	return true;
+      return false;
+    }
+
+
+    // Purpose: Returns the height of the tree
+    // Returns: height the tree 
+    int height() const
+    {
+  	  int num = 0;
+      num = height(m_root);
+      return num;
+    }
+    
+    int height (TreeNode* &t) const
+    {
+      int height = 0, max;
+  	  if (t == NULL)
+  	    return height;
+  	  height = (t -> m_right);
+  	  max = height;
+  	  height = height(t -> m_left);
+  	  if (height > max)
+  	    return (height + 1);
+  	  return (max + 1);
+    }
+
+
+    // Purpose: finds the maximum element in the Tree
+    // Returns: a const reference to the maximum element
+    const T& findMax() const
+    {
+      findMax(m_root);
+    }
+
+  /*const &T findMax(TreeNode* T) const
+  {
+    if(isEmpty())
+      throw int (911);
+    if(T -> m_right == NULL)
+      return T -> m_data;
+    else
+  	  return findMax(T->m_right); 
+  }*/
+
+  // Purpose: finds the minimum element in the Tree
+  // Returns: a const reference to the minimum element
+    const T& findMin() const
+    {
+    	findMin(m_root);
+    }
+
+  /*const &T findMin(TreeNode* T) const
+  {
+    if(isEmpty())
+      throw int (911);
+    if(T -> m_left == NULL)
+      return T -> m_data;
+    else
+  	  return findMax(T->m_left); 
+  }*/
+
+
+// Purpose: finds an element in the Tree
+// Parameters: x is value to be found 
+// Returns: 
+//     If The tree contains x then  
+//         return N, the level of the node containing x
+//     If The tree does not contains x then  
+//         return -N, where N is the level of the tree reached in the search 
+    int contains(const T& x) const //contains!!! NEED HELP
+    {
+    	if (x == NULL)
+    	  return false;
+    }
+
+
+    
+  /*** ---- Mutator Operations ---- */
+
+  
+// Purpose: Clears the Tree
+// Postconditions: an empty Tree
+    void clear()
+    {
+  	  clear(m_root);
+  	  m_root = NULL;
+  	  return;
+    }
+    
+    void clear (TreeNode* &x) //gets called by the real clear!!
+    {
+    	if (x != NULL)
+    	{
+    	  clear(x -> m_left);
+    	  clear(x -> m_right);
+    	  delete x;
+    	}
+    	return;
+    }
+
+
+// Purpose: Inserts an element into a tree
+// Parameters: x is value to be added to the tree
+// Postconditions: The tree now contains x
+//     if the tree already contains x, ignore insertion
+  void insert(const T& x)
+  {
+	 insert(m_root, x);
+  }
+
+  void insert(TreeNode* &t,  const T& x)
+  {
+    if (t == NULL)
+  	  t = new TreeNode(x);
+    if (x > t -> m_data)
+     	insert(t->m_right, x);
+    else if (x < t -> m_data)
+  	    insert(t->m_left, x);
+    return;
+  }
+
+
+
+    
+// Purpose: Removes an element from the tree
+// Parameters: x, the element to remove
+// Postconditions: the tree does not contains x
+  void remove (const T& x)
+  {
+    remove(m_root, x);
+  }  
+
+  void remove(TreeNode* &t, const T& x)
+    {
+      if (t == NULL)
+  	    return;
+      if (x > t -> m_data) //Knows if its right or left
+        remove(t -> m_right,x);
+      if (x < t -> m_data)
+  	    remove(t -> m_left,x);
+      if (t->m_right != NULL && t->m_left != NULL)
+      {
+    	t -> m_data = findMax(t -> m_left);
+  	    remove(t -> m_left, t -> m_data);
+      }
+      else 
+      {
+        TreeNode* temp = t;
+        if (t -> m_right != NULL)
+        {
+          t = t -> m_right; //right is NULL!!
+          delete temp;
+        }
+        else //left is NULL!!!
+        {
+          t = t -> m_left;
+          delete temp; 
+        }
+      }
+    }
+          
+     
+  /*** ---- Output Operations ---- ***/
+ 
+  void printPreOrder() const
+	{
+  	if(m_root != NULL)
+    {
+      cout<<m_root->m_data<<endl;
+      m_root->m_left->printPreOrder();
+      m_root->m_right->printPreOrder();
+  	}
+  }
+
+  /*void printPreOrder(TreeNode* &t)
+  {
+    if(t != NULL)
+    {
+      cout<<t->m_data<<endl;
+      t->m_left->printPreOrder();
+      t->m_right->printPreOrder();
+  }*/
+  
+  void printPostOrder() const
+  {
+  	
+    if(m_root != NULL)
+    {
+      m_root->m_left->printPostOrder();
+      m_root->m_right->printPostOrder();
+      cout<<m_root->m_data<<endl;
+    }
+  }
+
+
+// Purpose: Prints the Tree In-Order with formatting
+//     each level indented 4 spaces, one element per line    
+  void print() const
+  {
+     prettyPrint(m_root,0);
+     return;
+  }
+
+private:
+  void prettyPrint (const TreeNode* t, int pad) const
+  {
+    string s(pad, ' ');
+    if (t == NULL)
+      cout << endl;
+    else
+	{
+      prettyPrint(t-> m_right, pad+4);
+      cout << s << t-> m_data << endl;
+      prettyPrint(t-> m_left, pad+4);
+    }  
+  }
+  
+
+  
+  TreeNode* clone(const TreeNode* t)
+  {
+    if (t == NULL)
+      return NULL;
+    else
+		{
+      return new TreeNode(t-> m_data, clone(t-> m_left),clone(t-> m_right));
+    }  
+  }
+
+	  
+};  // MyBSTree
+
+#endif

@@ -1,0 +1,15 @@
+In Paris:
+
+All locations reachable from the airport.
+
+
+
+In Miami:
+
+beach unreachable from the airport.
+
+
+
+In Rolla:
+
+All locations reachable from the airport.
